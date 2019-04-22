@@ -9,6 +9,7 @@ server.use(express.json());
 
 // EndPoints ----CRUD
 // Create. Add User **Postman-Tested: Working**
+// Chaining the 2 .thens(21 & 24) return the entire object and not just the ID. (included per classmate instruction.)
 server.post('/api/users', (req, res) => {
     const { name, bio } = req.body;
     if(!name || !bio) {
@@ -17,6 +18,9 @@ server.post('/api/users', (req, res) => {
 
     db
     .insert({ name, bio })
+    .then(response => {
+        return db.findById(response.id)
+    })
     .then(user => {
         res.status(201).json(user)
     })
