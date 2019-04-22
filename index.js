@@ -8,11 +8,11 @@ const server = express();
 server.use(express.json());
 
 // EndPoints ----CRUD
-// Create. Add User **Postman-Tested: Working(postman only returned the ID once it was created ask about this.)**
+// Create. Add User **Postman-Tested: Working**
 server.post('/api/users', (req, res) => {
     const { name, bio } = req.body;
     if(!name || !bio) {
-        res.status(400).json({ errorMessage: "Please provide name and bio for the user"})
+        res.status(400).json({ message: "Please provide name and bio for the user"})
     }
 
     db
@@ -20,8 +20,8 @@ server.post('/api/users', (req, res) => {
     .then(user => {
         res.status(201).json(user)
     })
-    .catch(error => {
-        res.status(500).json({ error: "There was an error while saving the user to the database."})
+    .catch(err => {
+        res.status(500).json({ error: err, message: "There was an error while saving the user to the database."})
     })
 })
 
@@ -32,8 +32,8 @@ server.get('/api/users', (req, res) => {
     .then(users => {
         res.status(200).json(users);
     })
-    .catch(error => {
-        res.status(500).json({ error: "The users information could not be retrieved."});
+    .catch(err => {
+        res.status(500).json({ error: err, message: "The users information could not be retrieved."});
     })
 });
 
@@ -50,8 +50,8 @@ server.get('/api/users/:id', (req, res) => {
             res.status(404).json({ message: "The user with the specified ID does not exist."})
         }
     })
-    .catch(error => {
-        res.status(500).json({ error: "The user information could not be retrieved."})
+    .catch(err => {
+        res.status(500).json({ error: err, message: "The user information could not be retrieved."})
     })
 })
 
@@ -60,7 +60,7 @@ server.put('/api/users/:id', (req, res) => {
     const id = req.params.id;
     const { name, bio } = req.body;
     if(!name || !bio) {
-        res.status(400).json({ errorMessage: "Please provide name and bio for the user."})
+        res.status(400).json({ message: "Please provide name and bio for the user."})
     }
 
     db
@@ -72,8 +72,8 @@ server.put('/api/users/:id', (req, res) => {
             res.status(404).json({ message: "The user with the specified ID does not exist."})
         }
     })
-    .catch(error => {
-        res.status(500).json({ error: "The user information could not be modified."})
+    .catch(err => {
+        res.status(500).json({ error: err, message: "The user information could not be modified."})
     })
 })
 
@@ -90,8 +90,8 @@ server.delete('/api/users/:id', (req, res) => {
             res.status(404).json({ message: "The user with the specified ID does not exist."})
         }
     })
-    .catch(error => {
-        res.status(500).json({ error: "The user could not be removed."})
+    .catch(err => {
+        res.status(500).json({ error: err, message: "The user could not be removed."})
     })
 })
 
